@@ -6,7 +6,7 @@ test = $(rawDir)/test
 train = $(rawDir)/train
 plotDir = $(data)/plots
 
-imgSource = ../add_labels/data/labeled/
+imgSource = ../add_labels/data/labeled
 
 dirs = $(data) $(rawDir) $(test) $(train) $(plotDir)
 
