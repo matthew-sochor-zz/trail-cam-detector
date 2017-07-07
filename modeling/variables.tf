@@ -1,3 +1,8 @@
+variable "key_pair"{
+	type = "string"
+	default = "sochor"
+}
+
 variable "ami" {
 	type = "string"
 	default = "ami-b54364d0"
