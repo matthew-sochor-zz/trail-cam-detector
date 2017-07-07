@@ -24,4 +24,4 @@ filenames = [file.split('/')[-1] for file in df.SourceFile]
 for folder, filename, subjects in zip(folders, filenames, df.Subject):
 	subject_list = subjects.split(', ')
 	for subject in subject_list:
-		subprocess.call(['cp', os.path.join(source, folder, filename), os.path.join(dest, subject, filename)])
+		subprocess.call(['mv', os.path.join(source, folder, filename), os.path.join(dest, subject, filename)])
