@@ -71,3 +71,7 @@ split: $(labelDirs)
 pushSplits:
 	aws s3 sync $(train) s3://$(s3dir)/train 
 	aws s3 sync $(test) s3://$(s3dir)/test 
+
+pullSplits:
+	aws s3 sync s3://$(s3dir)/train $(train)
+	aws s3 sync s3://$(s3dir)/test $(test)
