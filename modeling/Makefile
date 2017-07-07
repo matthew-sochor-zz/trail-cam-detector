@@ -14,6 +14,8 @@ s3dir = cleveland-metroparks-trail-cam-images
 testS3key = test/
 trainS3key = train/
 
+labelDirs = $(shell ls $(imgSource))
+
 percent = 0.7
 
 # Modeling
@@ -40,6 +42,17 @@ clean:
 $(dirs):
 	mkdir -p $@
 
+reset_test_train:
+	rm -rf $(test)
+	rm -rf $(train)
+	mkdir -p $(test)
+	mkdir -p $(train)
+
+$(labelDirs): reset_test_train
+	mkdir -p $(test)/$@
+	mkdir -p $(train)/$@
+	python split.py $@ $(imgSource) $(test) $(train) $(percent)
+
 # Terraform deployment 
 start:
 	terraform apply
@@ -52,20 +65,8 @@ stop:
 	terraform destroy
 
 # Split data
-split:
-	rm -rf $(test)
-	rm -rf $(train)
-	mkdir -p $(test)
-	mkdir -p $(train)
-	mkdir -p $(test)/human
-	mkdir -p $(train)/human
-	mkdir -p $(test)/duck
-	mkdir -p $(train)/duck
-	mkdir -p $(test)/pooduck
-	mkdir -p $(train)/pooduck
-	python split.py human $(imgSource) $(test) $(train) $(percent)
-	python split.py duck $(imgSource) $(test) $(train) $(percent)
-	python split.py pooduck $(imgSource) $(test) $(train) $(percent)
+split: $(labelDirs)
+	@echo split
 
 pushSplits:
 	aws s3 sync $(train) s3://$(s3dir)/train 
