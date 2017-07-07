@@ -15,8 +15,6 @@ subprocess.call(['mkdir', '-p', dest])
 for subjects in list(set(df.Subject)):
 	subject_list = subjects.split(', ')
 	for subject in subject_list:
-		print(dest)
-		print(subject)
 		subprocess.call(['mkdir', '-p', os.path.join(dest, subject)])
 
 folders = [file.split('/')[-2] for file in df.SourceFile]
