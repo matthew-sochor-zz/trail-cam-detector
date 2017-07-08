@@ -27,10 +27,7 @@ def gen_XY_from_dir(arr_dir):
 
 
 def augment_XY(x, y, aug_rounds):
-    auggen = ImageDataGenerator(rotation_range=10,
-                                width_shift_range=0.1,
-                                height_shift_range=0.1,
-                                horizontal_flip=True)
+    auggen = ImageDataGenerator(horizontal_flip=True)
 
     X_aug, Y_aug = next(auggen.flow(np.tile(x[np.newaxis],
                                             (aug_rounds, 1, 1, 1)),

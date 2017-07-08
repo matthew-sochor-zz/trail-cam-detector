@@ -28,7 +28,7 @@ model: train_head.py
 
 features: imgs_to_arr.py arrs_to_aug.py arrs_to_emb.py | $(dirs)
 	python imgs_to_arr.py
-	python arrs_to_aug.py
+	#python arrs_to_aug.py
 	python arrs_to_emb.py
 
 # Data
@@ -69,9 +69,9 @@ split: $(labelDirs)
 	@echo split
 
 pushSplits:
-	aws s3 sync $(train) s3://$(s3dir)/train 
-	aws s3 sync $(test) s3://$(s3dir)/test 
+	aws s3 sync $(train) s3://$(s3dir)/train --region=us-east-2
+	aws s3 sync $(test) s3://$(s3dir)/test --region=us-east-2
 
 pullSplits:
-	aws s3 sync s3://$(s3dir)/train $(train)
-	aws s3 sync s3://$(s3dir)/test $(test)
+	aws s3 sync s3://$(s3dir)/train $(train) --region=us-east-2
+	aws s3 sync s3://$(s3dir)/test $(test) --region=us-east-2

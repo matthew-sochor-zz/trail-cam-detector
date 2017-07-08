@@ -85,4 +85,4 @@ def arrs_to_aug(arr_dir, emb_dir):
 
 if __name__ == '__main__':
     arrs_to_aug('data/arr/test', 'data/emb/test')
-    arrs_to_aug('data/aug/train', 'data/emb/train')
+    arrs_to_aug('data/arr/train', 'data/emb/train')
