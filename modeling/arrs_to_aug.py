@@ -47,9 +47,9 @@ def arrs_to_aug(arr_dir, aug_dir):
         for aug_idx, (x_aug, y_aug) in enumerate(augment_XY(x, y, aug_rounds)):
             cat_idx = np.argmax(y_aug)
             cat = cat_from_int(cat_idx)
-            img_name = '{:04d}-{:02d}-img-{}-{}'.format(img_idx, aug_idx,
+            img_name = '{}-{:02d}-img-{}-{}'.format(img_idx, aug_idx,
                                                         cat, cat_idx)
-            lab_name = '{:04d}-{:02d}-lab-{}-{}'.format(img_idx, aug_idx,
+            lab_name = '{}-{:02d}-lab-{}-{}'.format(img_idx, aug_idx,
                                                         cat, cat_idx)
             aug_path = os.path.join(aug_dir, img_name)
             lab_path = os.path.join(aug_dir, lab_name)

@@ -5,7 +5,7 @@ variable "key_pair"{
 
 variable "ami" {
 	type = "string"
-	default = "ami-b54364d0"
+	default = "ami-e9c0e18c"
 }
 
 variable "spot_price" {
@@ -26,7 +26,7 @@ variable "subnet" {
 # These allow Josiah home, Sochor home and prog network IPs ssh access
 variable "security_groups" {
 	type = "list"
-	default = ["sg-531f533a", "sg-a51d51cc", "sg-c11c50a8"] 
+	default = ["sg-531f533a", "sg-a51d51cc", "sg-c11c50a8", "sg-2438294d"] 
 }
 
 variable "volume_type" {
