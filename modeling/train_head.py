@@ -48,9 +48,6 @@ def pop_layer(model, count=1):
 def cat_from_int(cat_int):
     return CATS[cat_int]
 
-
-
-
 def gen_minibatches(arr_dir):
     # TODO: refactor this to be more performative HHD
     # reading pattern if necessary
