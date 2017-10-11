@@ -131,8 +131,8 @@ def predict_test():
     cm = confusion_matrix(Y_test, Y_pred)
     print(cm)
     sns.heatmap(pd.DataFrame(cm, CATS, CATS), annot=True, fmt='g', cbar=False)
-    plt.yticks(rotation=0) 
-    plt.xticks(rotation=90) 
+    plt.yticks(rotation=0)
+    plt.xticks(rotation=90)
     plt.gcf().subplots_adjust(bottom=0.30, left=0.20)
     plt.savefig('data/plots/' + model_weights.split('.')[0] + '.png')
 
