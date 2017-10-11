@@ -5,6 +5,7 @@ rawDir = $(data)/raw
 test = $(rawDir)/test
 train = $(rawDir)/train
 plotDir = $(data)/plots
+resultsDir = $(data)/results
 
 imgSource = ../add_labels/data/labeled
 
@@ -19,6 +20,9 @@ labelDirs = $(shell ls $(imgSource))
 percent = 0.7
 
 # Modeling
+
+plot: plot.py
+	python plot.py
 
 predict: predict.py
 	python predict.py

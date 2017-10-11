@@ -12,17 +12,16 @@ from keras.callbacks import ModelCheckpoint
 
 from dotenv import load_dotenv, find_dotenv
 from sklearn.metrics import confusion_matrix
-import matplotlib.pyplot as plt
-import seaborn as sns
 import pandas as pd
 
 load_dotenv(find_dotenv())
 
 batch_size = int(os.environ.get("BATCH_SIZE"))
 
-img_dim = 224
+img_dim = os.environ.get("IMG_DIM")
 
 model_dir = 'data/models'
+results_dir = 'data/results'
 model_name = os.environ.get("MODEL_NAME")
 model_weights = os.environ.get("MODEL_WEIGHTS")
 num_epochs = int(os.environ.get("EPOCHS"))
@@ -130,11 +129,8 @@ def predict_test():
 
     cm = confusion_matrix(Y_test, Y_pred)
     print(cm)
-    sns.heatmap(pd.DataFrame(cm, CATS, CATS), annot=True, fmt='g', cbar=False)
-    plt.yticks(rotation=0)
-    plt.xticks(rotation=90)
-    plt.gcf().subplots_adjust(bottom=0.30, left=0.20)
-    plt.savefig('data/plots/' + model_weights.split('.')[0] + '.png')
+    cm_df = pd.DataFrame(cm, CATS, CATS)
+    cm_df.to_csv(os.path.join(results_dir, 'confusion_matrix_' + model_name + '.csv'))
 
     return model
 
