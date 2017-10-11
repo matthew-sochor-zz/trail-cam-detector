@@ -8,10 +8,12 @@ import numpy as np
 from keras.layers import Input
 from keras.applications.resnet50 import ResNet50, preprocess_input
 
+from dotenv import load_dotenv, find_dotenv
 
-# TODO: allow for this to be parameterized
-img_width = 224
-img_height = 224
+load_dotenv(find_dotenv())
+
+img_width = int(os.environ.get("IMG_DIM"))
+img_height = int(os.environ.get("IMG_DIM"))
 
 
 # TODO: replace this listdir with a mapping tbl/json
