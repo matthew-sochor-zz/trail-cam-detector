@@ -36,7 +36,7 @@ variable "volume_type" {
 
 variable "volume_size" {
 	type = "string"
-	default = "256"
+	default = "1024"
 }
 
 variable "region" {

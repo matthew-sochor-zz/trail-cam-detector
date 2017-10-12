@@ -5,6 +5,7 @@ rawDir = $(data)/raw
 test = $(rawDir)/test
 train = $(rawDir)/train
 plotDir = $(data)/plots
+resultsDir = $(data)/results
 
 imgSource = ../add_labels/data/labeled
 
@@ -19,6 +20,9 @@ labelDirs = $(shell ls $(imgSource))
 percent = 0.7
 
 # Modeling
+
+plot: plot.py
+	python plot.py
 
 predict: predict.py
 	python predict.py
@@ -52,17 +56,6 @@ $(labelDirs): reset_test_train
 	mkdir -p $(test)/$@
 	mkdir -p $(train)/$@
 	python split.py $@ $(imgSource) $(test) $(train) $(percent)
-
-# Terraform deployment 
-start:
-	terraform apply
-
-connect:
-	terraform refresh
-	ssh -A -L 8888:localhost:8888 ubuntu@$(shell terraform output ip)
-
-stop:
-	terraform destroy
 
 # Split data
 split: $(labelDirs)

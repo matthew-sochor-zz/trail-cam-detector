@@ -7,10 +7,12 @@ import numpy as np
 
 from keras.preprocessing.image import load_img
 
+from dotenv import load_dotenv, find_dotenv
 
-# TODO: allow for this to be parameterized
-img_width = 224
-img_height = 224
+load_dotenv(find_dotenv())
+
+img_width = int(os.environ.get("IMG_DIM"))
+img_height = int(os.environ.get("IMG_DIM"))
 
 
 def imgdir_to_arr(data_dir, arr_dir):

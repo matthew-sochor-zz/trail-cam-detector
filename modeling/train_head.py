@@ -16,7 +16,7 @@ load_dotenv(find_dotenv())
 
 batch_size = int(os.environ.get("BATCH_SIZE"))
 
-img_dim = 224
+img_dim = int(os.environ.get("IMG_DIM"))
 
 model_dir = 'data/models'
 model_name = os.environ.get("MODEL_NAME")
@@ -47,9 +47,6 @@ def pop_layer(model, count=1):
 
 def cat_from_int(cat_int):
     return CATS[cat_int]
-
-
-
 
 def gen_minibatches(arr_dir):
     # TODO: refactor this to be more performative HHD
