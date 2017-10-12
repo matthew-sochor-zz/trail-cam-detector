@@ -49,9 +49,8 @@ groupAnimals:
 	find . -print | grep train | grep jpg | grep -v EMPTY > train.list
 	cat train.list | xargs -I {} cp {} $(train)/ANIMAL
 	rm train.list
-
-	#ls $(test) | grep -v EMPTY | grep -v ANIMAL | xargs -I {} rm -rf $(test)/{}
-	#ls $(train) | grep -v EMPTY | grep -v ANIMAL | xargs -I {} rm -rf $(train)/{}
+	ls $(test) | grep -v EMPTY | grep -v ANIMAL | xargs -I {} rm -rf $(test)/{}
+	ls $(train) | grep -v EMPTY | grep -v ANIMAL | xargs -I {} rm -rf $(train)/{}
 
 clean:
 	rm -rf $(data)
