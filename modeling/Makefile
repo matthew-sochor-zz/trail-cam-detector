@@ -40,6 +40,10 @@ pullData: | $(dirs)
 	aws s3 sync s3://$(s3dir)/$(testS3key) $(test) --region=us-east-2
 	aws s3 sync s3://$(s3dir)/$(trainS3key) $(train) --region=us-east-2
 
+groupAnimals:
+	mkdir -p $(test)/ANIMAL
+	find . $(test) -print | grep -v EMPTY | xargs -I {} cp $(test)/ANIMAL
+
 clean:
 	rm -rf $(data)
 
