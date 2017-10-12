@@ -42,11 +42,11 @@ pullData: | $(dirs)
 
 groupAnimals:
 	mkdir -p $(test)/ANIMAL
-	find . $(test) -print | grep jpg | grep -v EMPTY > test.list
+	find . -print | grep test | grep jpg | grep -v EMPTY > test.list
 	cat test.list | xargs -I {} cp {} $(test)/ANIMAL
 	rm test.list
 	mkdir -p $(train)/ANIMAL
-	find . $(train) -print | grep jpg | grep -v EMPTY > train.list
+	find . -print | grep train | grep jpg | grep -v EMPTY > train.list
 	cat train.list | xargs -I {} cp {} $(train)/ANIMAL
 	rm train.list
 
