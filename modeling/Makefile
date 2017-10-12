@@ -42,8 +42,14 @@ pullData: | $(dirs)
 
 groupAnimals:
 	mkdir -p $(test)/ANIMAL
-	find . $(test) -print | grep -v EMPTY | xargs -I {} cp $(test)/ANIMAL
+	find . $(test) -print | grep -v EMPTY | xargs -I {} mv {} $(test)/ANIMAL
 
+	mkdir -p $(train)/ANIMAL
+	find . $(train) -print | grep -v EMPTY | xargs -I {} mv {} $(train)/ANIMAL
+
+	ls $(test) | grep -v EMPTY | grep -v ANIMAL | xargs -I {} rm -rf $(test)/{}
+	ls $(train) | grep -v EMPTY | grep -v ANIMAL | xargs -I {} rm -rf $(train)/{}
+	
 clean:
 	rm -rf $(data)
 
