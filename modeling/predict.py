@@ -18,7 +18,7 @@ load_dotenv(find_dotenv())
 
 batch_size = int(os.environ.get("BATCH_SIZE"))
 
-img_dim = os.environ.get("IMG_DIM")
+img_dim = int(os.environ.get("IMG_DIM"))
 
 model_dir = 'data/models'
 results_dir = 'data/results'
@@ -50,8 +50,6 @@ def pop_layer(model, count=1):
 
 def cat_from_int(cat_int):
     return CATS[cat_int]
-
-
 
 def gen_XY_from_dir(arr_dir, with_name=False):
     arr_files = sorted(os.listdir(arr_dir))
