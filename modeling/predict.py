@@ -26,7 +26,7 @@ model_name = os.environ.get("MODEL_NAME")
 model_weights = os.environ.get("MODEL_WEIGHTS")
 num_epochs = int(os.environ.get("EPOCHS"))
 
-input_dims = (7, 7, 2048)
+input_dims = (14, 14, 2048)
 
 # TODO: replace this listdir with a mapping tbl/json
 CATS = sorted(os.listdir('data/raw/train'))
@@ -112,16 +112,30 @@ def predict_test():
 
     Y_test = []
     Y_pred = []
-    for (x_test, y_test, arr_name, lab_name) in gen_tst:
+    arr_names = []
+    lab_names = []
+    cat_preds = []
+    cat_tests = []
+    animal_pred = []
+    empty_pred = []
+    for (x_test, y_test, arr_name, lab_name) in tqdm.tqdm(gen_tst):
         # TODO: refactor this to batch inputs via chunker
         Y_test.append(y_test)
         x_test_preproc = preprocess_input(x_test[np.newaxis].astype(np.float32))
         x_features = resnet_model.predict(x_test_preproc, batch_size=1)
         y_pred = model.predict(x_features, batch_size=1)
-        print(CATS[np.argmax(y_test)], CATS[np.argmax(y_pred)])
+        animal_pred.append(y_pred[0])
+        empty_pred.append(y_pred[1])
+        #print(CATS[np.argmax(y_test)], CATS[np.argmax(y_pred)])
+        cat_preds.append(CATS[np.argmax(y_pred)])
+        cat_tests.append(CATS[np.argmax(y_test)])
         Y_pred.append(y_pred)
+        arr_names.append(arr_name)
+        lab_names.append(lab_name)
 
     Y_test = np.argmax(Y_test, axis=1)
+    df_out = pd.DataFrame({'animal_pred': animal_pred, 'empty_pred': empty_pred,'cat_pred': cat_preds, 'cat_test': cat_tests, 'test':Y_test, 'pred':Y_pred, 'arr': arr_names, 'lab': lab_names})
+    df_out.to_csv(os.path.join(results_dir, 'results_' + model_name + '.csv'))
     Y_pred = np.argmax(np.concatenate(Y_pred), axis=1)
     print('Model test:', np.mean(Y_test == Y_pred))
 

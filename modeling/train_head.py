@@ -23,7 +23,7 @@ model_name = os.environ.get("MODEL_NAME")
 model_weights = os.environ.get("MODEL_WEIGHTS")
 num_epochs = int(os.environ.get("EPOCHS"))
 
-input_dims = (7, 7, 2048)
+input_dims = (14, 14, 2048)
 
 # TODO: replace this listdir with a mapping tbl/json
 CATS = sorted(os.listdir('data/raw/train'))
@@ -131,7 +131,6 @@ def train_model():
     callbacks_list = [checkpoint]
     steps_per_epoch = (nbr_trn_samples // batch_size)
     validation_steps = (nbr_tst_samples // batch_size)
-
     model.fit_generator(gen_trn,
                         steps_per_epoch=steps_per_epoch,
                         epochs=num_epochs,
@@ -139,7 +138,8 @@ def train_model():
                         validation_data=gen_tst,
                         validation_steps=validation_steps,
                         initial_epoch=0,
-                        callbacks = callbacks_list)
+                        callbacks = callbacks_list,
+                        class_weight = {0: 7, 1:1})
 
     Y_test = []
     Y_pred = []
@@ -157,4 +157,4 @@ def train_model():
 if __name__ == '__main__':
     # current code should get close to 81 percent acc
     model = train_model()
-    model.summary()
+    #model.summary()
