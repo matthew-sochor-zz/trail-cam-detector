@@ -27,6 +27,10 @@ plot: plot.py
 predict: predict.py
 	python predict.py
 
+model2:
+	python arrs_to_emb.py
+	python model.py
+
 model: train_head.py
 	python train_head.py
 
