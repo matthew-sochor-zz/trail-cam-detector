@@ -23,6 +23,7 @@ model_name = os.environ.get("MODEL_NAME")
 model_weights = os.environ.get("MODEL_WEIGHTS")
 old_model = os.environ.get("OLD_MODEL")
 num_epochs = int(os.environ.get("EPOCHS"))
+trainable = True if os.environ.get("TRAINABLE") == 'true' else False
 
 input_dims = (7, 7, 2048)
 
@@ -44,7 +45,8 @@ def pop_layer(model, count=1):
         model.layers[-1].outbound_nodes = []
         model.outputs = [model.layers[-1].output]
     model.built = False
-    return popped
+
+    return popped, model
 
 def cat_from_int(cat_int):
     return CATS[cat_int]
@@ -91,7 +93,10 @@ def train_model():
     resnet_model = ResNet50(include_top=False, weights='imagenet',
                      input_tensor=arr_input, pooling='avg')
 
-    popped = pop_layer(resnet_model, 12)
+    popped, leftover_resnet = pop_layer(resnet_model, 12)
+
+    for pop in popped:
+        pop.trainable = False
 
     # Take last 12 layers from resnet 50 with their starting weights!
     x_in = Input(shape=input_dims)
