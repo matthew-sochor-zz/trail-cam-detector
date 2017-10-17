@@ -130,7 +130,10 @@ def train_model():
     
         popped2, part_model = pop_layer(model, 5)
         x_in = Input(shape=input_dims)
-        x = part_model(x_in)
+        try:
+            x = part_model(x_in)
+        except:
+            x = part_model(x_in)
         
     x = Conv2D(512, (1, 1), name='conv_heatmap')(x)
     x = BatchNormalization()(x)
