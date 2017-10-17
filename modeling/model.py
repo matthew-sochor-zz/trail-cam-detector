@@ -25,7 +25,7 @@ old_model = os.environ.get("OLD_MODEL")
 num_epochs = int(os.environ.get("EPOCHS"))
 trainable = True if os.environ.get("TRAINABLE") == 'true' else False
 
-input_dims = (7, 7, 2048)
+input_dims = (14, 14, 2048)
 
 # TODO: replace this listdir with a mapping tbl/json
 CATS = sorted(os.listdir('data/raw/train'))
