@@ -144,6 +144,7 @@ def train_model():
 
     x = BatchNormalization()(x)
     x = Dropout(0.2)(x)
+    x = Dense(nbr_classes, activation='softmax')(x)
 
     model = Model(x_in, x)
     if old_model != 'true' and len(model_weights) > 0:
