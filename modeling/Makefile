@@ -19,6 +19,13 @@ labelDirs = $(shell ls $(imgSource))
 
 percent = 0.7
 
+# gpu clean
+gpu_fix:
+	sudo rmmod nvidia_drm
+	sudo rmmod nvidia_modeset
+	sudo rmmod nvidia_uvm 
+	sudo rmmod nvidia
+
 # Modeling
 
 plot: plot.py
