@@ -10,7 +10,7 @@ variable "ami" {
 
 variable "spot_price" {
 	type = "string"
-	default = "0.40"
+	default = "3.5"
 }
 
 variable "profile" {
@@ -20,7 +20,7 @@ variable "profile" {
 
 variable "subnet" {
 	type = "string"
-	default = "subnet-6347d50a"
+	default = "subnet-63bd1818"
 }
 
 # These allow Josiah home, Sochor home and prog network IPs ssh access
@@ -46,5 +46,5 @@ variable "region" {
 
 variable "instance_type" {
 	type = "string"
-	default = "p2.xlarge"
+	default = "p2.8xlarge"
 }
