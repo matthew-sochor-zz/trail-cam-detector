@@ -157,7 +157,7 @@ def train_model():
     model_extra = Model(x_in, x)
     for i, layer in enumerate(model.layers):
         for j,layer_extra in enumerate(model_extra.layers):
-            if layer.name == layer_extra.name:]
+            if layer.name == layer_extra.name:
                 model_extra.layers[j].set_weights(model.layers[i].get_weights())
 
     model_extra.compile(optimizer=Adam(lr=float(os.environ.get("LOSS_RATE"))),
