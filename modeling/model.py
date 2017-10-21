@@ -115,23 +115,33 @@ def train_model():
     x = layers.add([x, x_in])
     x = Activation('relu')(x)
 
-    if old_model == 'true':
+    x = AveragePooling2D((7, 7), name='avg_pool')(x)
+    x = GlobalAveragePooling2D()(x)
 
-        x = AveragePooling2D((7, 7), name='avg_pool')(x)
-        x = GlobalAveragePooling2D()(x)
+    x = BatchNormalization()(x)
+    x = Dropout(0.2)(x)
+    x = Dense(nbr_classes, activation='softmax')(x)
 
-        x = BatchNormalization()(x)
-        x = Dropout(0.2)(x)
-        x = Dense(nbr_classes, activation='softmax')(x)
+    model = Model(x_in, x)
+    if len(model_weights) > 0:
+        model.load_weights(model_dir + '/' + model_weights)
 
-        model = Model(x_in, x)
-        if len(model_weights) > 0:
-            model.load_weights(model_dir + '/' + model_weights)
-    
-        popped2, part_model = pop_layer(model, 5)
-        x_in = Input(shape=input_dims)
-        part_model.built = True
-        x = part_model(x_in)
+    # Take last 12 layers from resnet 50 with their starting weights!
+    x_in = Input(shape=input_dims)
+
+    x = popped[11](x_in)
+    x = popped[10](x)
+    x = Activation('relu')(x)
+
+    x = popped[8](x)
+    x = popped[7](x)
+    x = Activation('relu')(x)
+
+    x = popped[5](x)
+    x = popped[4](x)
+
+    x = layers.add([x, x_in])
+    x = Activation('relu')(x)
 
     x = Conv2D(512, (1, 1), name='conv_heatmap')(x)
     x = BatchNormalization()(x)
@@ -144,22 +154,24 @@ def train_model():
     x = Dropout(0.2)(x)
     x = Dense(nbr_classes, activation='softmax')(x)
 
-    model = Model(x_in, x)
-    if old_model != 'true' and len(model_weights) > 0:
-            model.load_weights(model_dir + '/' + model_weights)
+    model_extra = Model(x_in, x)
+    for i, layer in enumerate(model.layers):
+        for j,layer_extra in enumerate(model_extra.layers):
+            if layer.name == layer_extra.name:]
+                model_extra.layers[j].set_weights(model.layers[i].get_weights())
 
-    model.compile(optimizer=Adam(lr=float(os.environ.get("LOSS_RATE"))),
+    model_extra.compile(optimizer=Adam(lr=float(os.environ.get("LOSS_RATE"))),
                   loss='categorical_crossentropy',
                   metrics=['categorical_accuracy'])
 
-    model.summary()
+    model_extra.summary()
     filepath="data/models/" + model_name.split('.')[0] + "-weights-improvement-{epoch:02d}-{val_categorical_accuracy:.4f}.hdf5"
     checkpoint = ModelCheckpoint(filepath, monitor='val_categorical_accuracy', verbose=1, save_best_only=True, mode='max')
     callbacks_list = [checkpoint]
     steps_per_epoch = (nbr_trn_samples // batch_size)
     validation_steps = (nbr_tst_samples // batch_size)
 
-    model.fit_generator(gen_trn,
+    model_extra.fit_generator(gen_trn,
                         steps_per_epoch=steps_per_epoch,
                         epochs=num_epochs,
                         verbose=2,
@@ -172,13 +184,13 @@ def train_model():
     Y_pred = []
     for _, (x_test, y_test) in zip(range(nbr_tst_samples // batch_size), gen_tst):
         Y_test.append(y_test)
-        Y_pred.append(model.predict_on_batch(x_test))
+        Y_pred.append(model_extra.predict_on_batch(x_test))
 
     print('Model test:', np.mean(np.argmax(np.concatenate(Y_test), axis=1) == np.argmax(np.concatenate(Y_pred), axis=1)))
 
-    model.save(os.path.join(model_dir, model_name))
+    model_extra.save(os.path.join(model_dir, model_name))
 
-    return model
+    return model_extra
 
 
 if __name__ == '__main__':
