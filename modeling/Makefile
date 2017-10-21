@@ -20,6 +20,9 @@ labelDirs = $(shell ls $(imgSource))
 percent = 0.7
 
 # gpu clean
+monitor:
+	watch -n 0.5 nvidia-smi
+	
 gpu_fix:
 	sudo rmmod nvidia_drm
 	sudo rmmod nvidia_modeset
