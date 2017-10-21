@@ -35,7 +35,6 @@ model: train_head.py
 
 features: imgs_to_arr.py arrs_to_aug.py arrs_to_emb.py | $(dirs)
 	python imgs_to_arr.py
-	#python arrs_to_aug.py
 	python arrs_to_emb.py
 
 # Data
