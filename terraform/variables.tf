@@ -36,7 +36,7 @@ variable "volume_type" {
 
 variable "volume_size" {
 	type = "string"
-	default = "1024"
+	default = "512"
 }
 
 variable "region" {
@@ -46,5 +46,5 @@ variable "region" {
 
 variable "instance_type" {
 	type = "string"
-	default = "p2.8xlarge"
+	default = "p2.xlarge"
 }
